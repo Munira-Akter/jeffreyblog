@@ -1,0 +1,10 @@
+body{
+    width: 600px;
+    background:#f8f8f8;
+    margin: auto;
+}
+
+article + article{
+    margin-top: 50px;
+    border-top: 2px soild #777;
+}

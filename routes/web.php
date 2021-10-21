@@ -18,6 +18,13 @@ Route::get('/', function () {
 });
 
 
-Route::get('/post', function(){
-    return view('post');
+Route::get('/post/{slug}', function($slug){
+    $path = resource_path("post/{$slug}.html");
+
+    if(!file_exists($path)){
+        abort(404, 'Post Not Found');
+    }else{
+        $file = file_get_contents($path);
+        return view('post',compact('file'));
+    }
 });

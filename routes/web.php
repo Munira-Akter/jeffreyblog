@@ -1,28 +1,29 @@
 <?php
 
 use App\Models\Post;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
-    $posts = Post::all();
-    
-    return view('posts',compact('posts'));
+    $post = Post::with('category')->latest()->get();
+   return view('posts' , compact('post'));
 });
 
 
-Route::get('/post/{slug}', function($slug){
-        $file = Post::find($slug);
-        return view('post',compact('file'));
-    
+Route::get('/post/{post:slug}', function(Post $post){
+
+    if(!isset($post)){
+        abort(404);
+    }else{
+        // $post = cache()->rememberForever('post.{$post}',function() use($post){
+        //     return $posts = [
+        //         'post' =>  $post,
+        //         'category' => $post -> category(),
+        //     ];
+        // });
+        return view('post',compact('post'));
+    }
+
 })->where('slug','[A-z_\-]+');

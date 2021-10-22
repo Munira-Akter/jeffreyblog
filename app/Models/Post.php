@@ -2,34 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\File;
+use App\Models\User;
+use App\Models\Category;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Post{
-    public static function find($slug){
+class Post extends Model
+{
+    use HasFactory;
 
-        $path = resource_path("post/{$slug}.html");
+    protected $guarded = [];
 
-        if(!file_exists($path)){
-            return abort(404, 'Post Not Found');
-        }else{
-
-            $file = cache()->remember('posts.{slug}' , 1200 , function() use($path){
-                 return file_get_contents($path);
-            });
-
-            return $file;
-        }
+    public function category(){
+        return $this -> belongsTo(Category::class);
     }
 
-
-    public static function all(){
-         $posts = File::files(resource_path('post'));
-
-        return $pots =  array_map(function($post){
-             return $post -> getContents();
-         },$posts);
+    public function user(){
+        return $this -> belongsTo(User::class);
     }
 }
-
-
-?>

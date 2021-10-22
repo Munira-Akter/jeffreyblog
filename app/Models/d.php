@@ -39,13 +39,19 @@ class Post{
     }
 
 
+
     public static function all(){
 
         return cache()->rememberForever('post.all', function () {
-            return collect($files = File::files(resource_path('post')))
+
+            return $all = collect($files = File::files(resource_path('post')))
                 ->map(function($file){
+
                     $document = YamlFrontMatter::parseFile($file);
+
                     return new Post($document -> title,$document -> slug,$document->excerpt,$document->data);
+
+
             },$files);
 
         });

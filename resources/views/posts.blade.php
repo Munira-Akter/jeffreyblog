@@ -1,12 +1,28 @@
 <x-layouts>
-    @foreach ( $post as $posts)
 
-    <article>
-      <h1><a href="/post/{{ $posts -> slug }}">{{ $posts -> title }}</a></h1>
-      <span>{{ $posts -> date }}</span>
-      <a href="/posts/category/{{ $posts -> category -> slug }}"><span>{{ $posts -> category -> name }}</span></a>
-      <p>{{ $posts -> excerpt }}</p>
-    </article>
+    @includeIf('_header')
 
-   @endforeach
+    <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
+
+        <x-featured-post :post="$posts[0]"/>
+
+
+
+       <div class="lg:grid lg:grid-cols-6">
+
+        @foreach ($posts->skip(1)->take(5) as $post )
+
+
+        <x-post-card  :post="$post" class="{{ $loop -> iteration > 2 ? 'col-span-2' : 'col-span-3'}}" />
+
+        @endforeach
+
+        </div>
+
+
+
+
+
+    </main>
+
 </x-layouts>

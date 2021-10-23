@@ -31,7 +31,7 @@ class PostFactory extends Factory
             'slug' => $slug,
             'user_id' => User::factory(),
             'category_id' => Category::factory(),
-            'excerpt' => $this -> faker -> sentence(3),
+            'excerpt' =>  $this->faker->text(200)    ,
             'body' => $this -> faker -> paragraph(),
             'published_at' => now()
         ];

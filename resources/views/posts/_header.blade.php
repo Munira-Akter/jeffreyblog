@@ -9,24 +9,7 @@
         <!--  Category -->
         <div class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl">
 
-            <x-dropdown>
-
-            <x-slot name="trigger">
-                <button class="flex-1 appearance-none bg-transparent py-2 pl-3 pr-9 text-sm font-semibold">
-                    Catgeory
-                </button>
-            </x-slot>
-
-
-                <div x-show="show" style="max-height:300px; overflow:auto !important; padding: 5px; display:none; position: absolute; z-index:999; background:rgb(248, 245, 245); width:100%; border-radius:5px;" >
-                    @foreach ($categories as $category)
-                    <a style="display:block;" class="hover:bg-blue" href="/?category={{ $category -> slug }}">{{ $category -> name }}</a>
-                    @endforeach
-
-                </div>
-            </x-dropdown>
-
-
+          <x-category-component/>
 
             <svg class="transform -rotate-90 absolute pointer-events-none" style="right: 12px;" width="22"
                  height="22" viewBox="0 0 22 22">
@@ -63,7 +46,16 @@
 
         <!-- Search -->
         <div class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl px-3 py-2">
-            <form method="GET" action="">
+            <form method="GET" action="/">
+                @if (request('category'))
+                    <input type="hidden" name="category" value="{{ request('category') }}">
+
+                    @elseif (request('author'))
+
+                    <input type="hidden" name="author" value="{{ request('author') }}">
+
+                @endif
+
                 <input type="text" name="search"
                  placeholder="Find something"
                 class="bg-transparent placeholder-black font-semibold text-sm"

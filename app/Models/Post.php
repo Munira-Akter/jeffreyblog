@@ -14,7 +14,7 @@ class Post extends Model
 
     protected $guarded = [];
 
-    // protected $with = ['author' , 'category'];
+    protected $with = ['author' , 'category'];
 
     public function scopeFilter($query, array $filters){
 
@@ -29,6 +29,15 @@ class Post extends Model
                 $query->Where('slug' , request('category'));
             });
         });
+
+
+        $query->when($filters['author'] ?? false , function($query){
+            $query->whereHas('author' , function($query){
+                $query->where('id' , request('author'));
+            });
+        });
+
+
     }
 
     public function category(){

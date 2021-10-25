@@ -16,31 +16,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('posts' , [
-            'posts' => Post::latest()->filter(request(['search','category']))->get(),
-            'categories' => Category::all(),
-            // 'Currentcategory' => Category::firstWhere('slug' , request('category')),
+        return view('posts.index' , [
+            'posts' => Post::latest()->filter(request(['search','category','author']))->get(),
+
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function categorysearch(Category $category)
-    {
-        if(!isset($category)){
-            abort(404);
-        }else{
-            return view('posts' ,[
-                'CurrentCategory' => $category,
-                'posts'  => $category -> posts,
-                'categories' => Category::all()
 
-            ]);
-        }
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -61,13 +43,11 @@ class PostController extends Controller
      */
     public function postshow(Post $post)
     {
+
         if(!isset($post)){
             abort(404);
         }else{
-            // $post = cache()->rememberForever('post.{$post}',function() use($post){
-            //     return $post::with('category');
-            // });
-            return view('post',compact('post'));
+            return view('posts.show',compact('post'));
         }
     }
 

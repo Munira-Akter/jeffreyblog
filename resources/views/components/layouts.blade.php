@@ -56,4 +56,6 @@
 
 
     </section>
+
+    <x-flash-message />
 </body>

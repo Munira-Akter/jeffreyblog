@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 
 class RegisterController extends Controller
 {
@@ -12,7 +14,8 @@ class RegisterController extends Controller
     }
 
     // this method is for store user data in database
-    public function store(){
-
+    public function store(UserRequest $request){
+        User::create($request->all());
+        return redirect('/')->with('success' , 'Your account created successfully!');
     }
 }

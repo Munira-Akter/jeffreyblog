@@ -14,15 +14,21 @@ class Post extends Model
 
     protected $guarded = [];
 
-    protected $with = ['author' , 'category'];
+    // protected $with = ['author' , 'category'];
 
-    public function scopeFilter($query, array $filter){
+    public function scopeFilter($query, array $filters){
 
-        if(($filter['search']) ?? false){
+        $query->when($filters['search'] ?? false ,  function($query) {
             $query->where('title' , 'LIKE' , '%' .request('search'). '%' )
             ->orWhere('body' , 'LIKE' , '%' . request('search') . '%');
-            }
 
+        });
+
+        $query->when($filters['category'] ?? false , function($query){
+            $query->whereHas('category' , function($query){
+                $query->Where('slug' , request('category'));
+            });
+        });
     }
 
     public function category(){

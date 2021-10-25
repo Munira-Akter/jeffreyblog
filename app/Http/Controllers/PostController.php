@@ -17,8 +17,9 @@ class PostController extends Controller
     public function index()
     {
         return view('posts' , [
-            'posts' => Post::latest()->filter(request(['search']))->get(),
-            'categories' => Category::latest()->get(),
+            'posts' => Post::latest()->filter(request(['search','category']))->get(),
+            'categories' => Category::all(),
+            // 'Currentcategory' => Category::firstWhere('slug' , request('category')),
         ]);
     }
 

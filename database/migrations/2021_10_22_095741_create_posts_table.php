@@ -21,6 +21,7 @@ class CreatePostsTable extends Migration
             $table->text('excerpt');
             $table->longText('body');
             $table->string('slug');
+            $table->string('thumbnail')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

@@ -12,52 +12,72 @@
         <nav class="md:flex md:justify-between md:items-center">
             <div>
                 <a href="/">
-                    <img src="/images/logo.svg" alt="Laracasts Logo" width="165" height="16">
+                    <img src="{{ asset('images\Blogger_logo.svg.png') }}" alt="Laracasts Logo" width="165" height="16">
                 </a>
             </div>
 
-            <div class="mt-8 md:mt-0">
+            <div class="flex mt-8 md:mt-0">
 
                 @auth
-                    <span class="text-xs font-bold uppercase">Welcome {{ auth()->user()->username }}</span>
-                   <form action="/logout" method="post" style="display:inline-block;">
-                    @csrf
-                        <button type="submit">Logout</button>
-                    </form>
+
+                <x-dropdown>
+                    <x-slot name="trigger">
+                        <button  class="mt-2 text-xs font-bold uppercase">Welcome {{ auth()->user()->username }}</button>
+                    </x-slot>
+
+                    <div x-show="show" style="max-height:300px; overflow:auto !important; padding: 10px; display:none; position: absolute; z-index:999; background:rgb(248, 245, 245); width:100%; border-radius:5px;" >
+                        @if (auth()->user()->username == 'Munira')
+                        <a href="/admin" class="text-xs font-bold uppercase">Dashboard</a> <br>
+
+                        @endif
+                        <a href="#" class="text-xs font-bold uppercase" x-data="{}" @click.prevent="document.querySelector('#logout-form').submit()">Logout</a> <br>
+
+
+
+
+                    <form id="logout-form" class="hidden" action="/logout" method="post" >
+                        @csrf
+
+                     </form>
+
+                    </div>
+
+                 </x-dropdown>
+
                     @endauth
                     @guest
-                    <a href="/register" class="text-xs font-bold uppercase">Register</a>
-                    <a href="/login" class="text-xs font-bold uppercase ml-6">LogIn</a>
+                    <a href="/register" class="mt-2 text-xs font-bold uppercase">Register</a>
+                    <a href="/login" class="mt-2 ml-6 text-xs font-bold uppercase" >LogIn</a>
                 @endguest
 
 
 
-                <a href="#" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                <a href="#" class="px-5 py-3 ml-3 text-xs font-semibold text-white uppercase bg-blue-500 rounded-full">
                     Subscribe for Updates
                 </a>
             </div>
         </nav>
         {{ $slot }}
-        <footer class="bg-gray-100 border border-black border-opacity-5 rounded-xl text-center py-16 px-10 mt-16">
-            <img src="./images/lary-newsletter-icon.svg" alt="" class="mx-auto -mb-6" style="width: 145px;">
+        <footer class="px-10 py-16 mt-16 text-center bg-gray-100 border border-black border-opacity-5 rounded-xl">
+            <img src="{{ asset('images/lary-newsletter-icon.svg') }}" alt="" class="mx-auto -mb-6" style="width: 145px;">
             <h5 class="text-3xl">Stay in touch with the latest posts</h5>
-            <p class="text-sm mt-3">Promise to keep the inbox clean. No bugs.</p>
+            <p class="mt-3 text-sm">Promise to keep the inbox clean. No bugs.</p>
 
             <div class="mt-10">
-                <div class="relative inline-block mx-auto lg:bg-gray-200 rounded-full">
+                <div class="relative inline-block mx-auto rounded-full lg:bg-gray-200">
 
-                    <form method="POST" action="#" class="lg:flex text-sm">
-                        <div class="lg:py-3 lg:px-5 flex items-center">
+                    <form method="POST" action="#" class="text-sm lg:flex">
+                        <div class="flex items-center lg:py-3 lg:px-5">
                             <label for="email" class="hidden lg:inline-block">
-                                <img src="./images/mailbox-icon.svg" alt="mailbox letter">
+                                <img src="/images/mailbox-icon.svg" alt="mailbox letter">
                             </label>
 
                             <input id="email" type="text" placeholder="Your email address"
-                                   class="lg:bg-transparent py-2 lg:py-0 pl-4 focus-within:outline-none">
+                                   class="py-2 pl-4 lg:bg-transparent lg:py-0 focus-within:outline-none">
                         </div>
 
                         <button type="submit"
-                                class="transition-colors duration-300 bg-blue-500 hover:bg-blue-600 mt-4 lg:mt-0 lg:ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-8"
+                                class="px-8 py-3 mt-4 text-xs font-semibold text-white uppercase transition-colors duration-300 bg-blue-500 rounded-full hover:bg-blue-600 lg:mt-0 lg:ml-3"
                         >
                             Subscribe
                         </button>

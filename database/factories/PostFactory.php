@@ -33,6 +33,7 @@ class PostFactory extends Factory
             'category_id' => Category::factory(),
             'excerpt' =>  $this->faker->text(200)    ,
             'body' => $this -> faker -> paragraph(),
+            // 'thumbnail' =>'https://source.unsplash.com/random',
             'published_at' => now()
         ];
     }
